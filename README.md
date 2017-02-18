@@ -1,1 +1,3 @@
 # url-shooter
+
+A bash Perl based wrapper around curl to shoot at lots of urls ...
