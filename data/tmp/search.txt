@@ -1,0 +1,9 @@
+
+r ! find /opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/ -name '*.pm' -exec grep -nHi '$objConfigurator' {} \;
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/ETL/Loader.pm:26:	our $objConfigurator = {} ; 	
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/ETL/Loader.pm:45:		$objConfigurator = 
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/ETL/Loader.pm:49:		$confHolderOfObj = $objConfigurator->getConfHolder();
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/ETL/Loader.pm:50:		print	$objConfigurator->dumpIni();
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/ETL/Loader.pm:112:			$objConfigurator->SetAllIniVarsToEnvironmentVars()
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/Configurator.pm:499:my $objConfigurator = new Configurator( $IniFile , \$confholder ) ;
+/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/sfw/perl/isg_pub/Control/Utils/Configurator.pm:500:my $objConfigurator = clone Configurator($FileRobotsIni , \$confHolder); 

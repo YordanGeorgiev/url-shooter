@@ -1,0 +1,34 @@
+# docs/txt/url-shooter/run-url-shooter/run-url-shooter.test.txt
+
+	doTestRunUrlShooter
+	
+	# Purpose:
+	# ------------------------------------------------------
+	test the actual run of the run-url-shooter.sh 
+	to read the google spreadsheet
+
+	# Prequisites
+	# ------------------------------------------------------
+	perl , bash , for the perl modules check by:
+	perl sfw/perl/url_shooter/url_shooter_preq_checker.pl
+
+	# Installation
+	# ------------------------------------------------------
+
+	# Usage:
+	# ------------------------------------------------------
+	-- add the action name to test in the 
+	sfw/bash/url-shooter/tests/run-url-shooter-tests.lst
+	file
+
+	# Development
+	# ------------------------------------------------------
+	
+
+	# Caveats:
+	# ------------------------------------------------------
+	none , known , so far ..
+
+
+
+# eof file: docs/txt/url-shooter/run-url-shooter/run-url-shooter.test.txt

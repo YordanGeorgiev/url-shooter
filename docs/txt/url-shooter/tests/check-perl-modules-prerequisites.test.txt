@@ -1,0 +1,19 @@
+# docs/txt/wrapp/check-perl-modules-prerequisites/check-perl-modules-prerequisites.test.txt
+
+	doTestCheckPerlModulesPrerequisites
+	
+	# Purpose:
+	# ------------------------------------------------------
+	to test the bash call for testing the perl modules prerequisites
+
+	# Usage:
+	# ------------------------------------------------------
+	enable in the action ( check-perl-modules-prerequisites ) in the 
+   sfw/bash/wrapp/tests/run-wrapp-tests.lst test names list file
+
+	# Caveats:
+	# ------------------------------------------------------
+	none
+
+
+# eof file: docs/txt/wrapp/check-perl-modules-prerequisites/check-perl-modules-prerequisites.test.txt

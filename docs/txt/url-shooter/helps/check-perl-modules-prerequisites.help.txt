@@ -1,0 +1,35 @@
+# docs/txt/wrapp/check-perl-modules-prerequisites/check-perl-modules-prerequisites.help.txt
+
+	doHelpCheckPerlModulesPrerequisites
+	
+	# Purpose:
+	# ------------------------------------------------------
+	to check whether the modules required for the wrapp operation are installed
+
+	# Prequisites
+	# ------------------------------------------------------
+   bash , perl 
+
+	# Installation
+	# ------------------------------------------------------
+   this func is part of the wrapp tool , no separate installations are required ... 
+
+	# Interdependancies
+	# ------------------------------------------------------
+   the perl checker script @:
+   ./sfw/perl/wrapp/script/wrapp_preq_checker.pl
+
+	# Usage:
+	# ------------------------------------------------------
+   bash sfw/bash/wrapp/wrapp.sh -a check-perl-modules-prerequisites
+
+	# Developent
+	# ------------------------------------------------------
+   probably needs a better output to the shell ... 
+
+	# Caveats:
+	# ------------------------------------------------------
+   none know .. so far 
+
+
+# eof file: docs/txt/wrapp/check-perl-modules-prerequisites/check-perl-modules-prerequisites.help.txt

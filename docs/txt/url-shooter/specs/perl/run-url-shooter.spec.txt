@@ -1,0 +1,37 @@
+# docs/txt/url-shooter/run-url-shooter/run-url-shooter.spec.txt
+
+	doSpecRunUrlShooter
+	
+	# Purpose:
+	# ------------------------------------------------------
+	-- todo: what is the purpose of the doSpecRunUrlShooter function
+
+	# Prequisites
+	# ------------------------------------------------------
+	-- todo: what are the prerequisites of the doSpecRunUrlShooter function
+
+	# Installation
+	# ------------------------------------------------------
+	-- todo: what are the required installations for the  
+		doSpecRunUrlShooter function to execute without errors
+
+	# Interdependancies
+	# ------------------------------------------------------
+	-- todo: what are the interdependancies for the  
+		doSpecRunUrlShooter function to execute without errors
+
+	# Usage:
+	# ------------------------------------------------------
+	-- todo: how can be the doSpecRunUrlShooter used 
+
+	# Development
+	# ------------------------------------------------------
+	-- todo: what issues, todos could be pointed for development
+
+	# Caveats:
+	# ------------------------------------------------------
+	-- todo: what are the known caveats of the doSpecRunUrlShooter functions
+
+
+
+# eof file: docs/txt/url-shooter/run-url-shooter/run-url-shooter.spec.txt

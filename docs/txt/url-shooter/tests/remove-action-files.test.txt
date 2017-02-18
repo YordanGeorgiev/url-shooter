@@ -1,0 +1,32 @@
+# docs/txt/url-shooter/remove-action-files/remove-action-files.test.txt
+
+	doTestRemoveActionFiles
+	
+	# Purpose:
+	# ------------------------------------------------------
+	to test the remove of action-files containing funcs or specs 
+	marked to be removed in the 
+	sfw/bash/url-shooter/tests/rem-url-shooter-actions.lst
+	list file
+
+
+	# Usage:
+	# ------------------------------------------------------
+	add the remove-action-files
+	as a separate line in the 
+	sfw/bash/url-shooter/tests/run-url-shooter-tests.lst
+	tests to run list file
+
+
+	# Issues:
+	# ------------------------------------------------------
+
+
+	# Caveats:
+	# ------------------------------------------------------
+	of course make a backup before deciding to remove functions and code 
+	from your tool ... 
+
+
+
+# eof file: docs/txt/url-shooter/remove-action-files/remove-action-files.test.txt

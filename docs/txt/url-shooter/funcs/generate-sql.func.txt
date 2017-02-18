@@ -1,0 +1,42 @@
+# docs/txt/url-shooter/generate-sql/generate-sql.func.txt
+
+	doGenerateSQL
+	
+	# Purpose:
+	# ------------------------------------------------------
+	to generate sql scripts out of *.SQL templates by
+	replacing the %column_names% from a *.list files with 
+	their respective <<cell-value>> for each line
+
+	# Prequisites
+	# ------------------------------------------------------
+   bash , perl , *.SQL file with %vars% notation in the 
+   sfw/sql/mssql/run dir
+
+	# Installation
+	# ------------------------------------------------------
+   unzip -o <<zip_pacckage>> -d <<dir-to-deploy>> 
+
+	# Interdependancies
+	# ------------------------------------------------------
+   there should be a lst file in the data/lst/mssql/list.list
+
+	# Usage:
+	# ------------------------------------------------------
+   1. fill in the lst file 
+	2. ensure tabs are used as token separators
+   3. enssure you have a template @ sfw/sql/mssql/run
+   4. Action !!!
+   bash sfw/bash/url-shooter/url-shooter.sh -a generate-sql
+    
+
+	# Developent
+	# ------------------------------------------------------
+   
+	# Caveats:
+	# ------------------------------------------------------
+   utf8 encoded templates are not supported ... ( yet ) 
+
+
+
+# eof file: docs/txt/url-shooter/generate-sql/generate-sql.func.txt

@@ -1,0 +1,5 @@
+sess--url-shooter	win--run-isgpub	/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg
+sess--url-shooter	win--vim--url-shooter	/opt/csitea/url-shooter/url-shooter.1.1.6.dev.ysg
+sess--url-shooter	win--tst--url-shooter	/opt/csitea/url-shooter/url-shooter.1.1.6.tst.ysg
+sess--url-shooter	win--prd--url-shooter	/opt/csitea/url-shooter/url-shooter.1.1.6.prd.ysg
+sess--url-shooter	win--git--url-shooter	/opt/csitea/url-shooter/url-shooter.1.1.6.git.ysg
