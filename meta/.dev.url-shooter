@@ -26,8 +26,6 @@ data/tmp
 data/tmp/search.txt
 docs
 docs/md
-docs/pdf
-docs/pdf/README.pdf
 docs/txt
 docs/txt/url-shooter
 docs/txt/url-shooter/funcs
@@ -329,4 +327,5 @@ sfw/sql/mysql
 sfw/sql/mysql/run
 sfw/sql/mysql/run/delete-all-from-%db%.%table%.SQL
 sfw/sql/mysql/run/select-all-from-%db%.%table%.SQL
+tags
 1
