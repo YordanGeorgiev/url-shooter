@@ -59,7 +59,6 @@ BEGIN {
 use UrlShooter::App::Utils::Initiator ; 
 use UrlShooter::App::Utils::Configurator ; 
 use UrlShooter::App::Utils::Logger ; 
-use UrlShooter::App::Utils::ETL::UrlShooter ; 
 use UrlShooter::App::Utils::IO::FileHandler ; 
 use UrlShooter::App::Model::DbHandlerFactory ; 
 use UrlShooter::App::Model::MariaDbHandler ; 

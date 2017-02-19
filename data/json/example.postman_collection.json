@@ -1,0 +1,55 @@
+{
+	"variables": [],
+	"info": {
+		"name": "",
+		"_postman_id": "e68c21f3-d098-fe9c-fa50-f2fcb198cc33",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "google.com",
+			"request": {
+				"url": "https://google.com",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Header-Key-1",
+						"value": "Header-Value-1",
+						"description": ""
+					},
+					{
+						"key": "Header-Key-2",
+						"value": "Header-Value-2",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "webopedia",
+			"request": {
+				"url": "http://www.webopedia.com",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Header-Key-1",
+						"value": "Header-Value-1",
+						"description": ""
+					},
+					{
+						"key": "Header-Key-2",
+						"value": "Header-Value-2",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

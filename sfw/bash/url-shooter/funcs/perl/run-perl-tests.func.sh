@@ -9,20 +9,13 @@ doRunPerlTests(){
    cd $product_instance_dir
 	doLog "INFO START : doRunPerlTests"
 
-	doLog "INFO START Component testing TestInitiator.t"
-	perl sfw/perl/url_shooter/t/TestInitiator.t
-	doLog "INFO STOP  Component testing TestInitiator.t"
-	test -z "$sleep_iterval" || sleep $sleep_iterval
-
-	doLog "INFO START Component testing TestUrlRunner.t"
-   perl sfw/perl/url_shooter/t/TestUrlRunner.t
-	doLog "INFO STOP  Component testing TestUrlRunner.t"
-	test -z "$sleep_iterval" || sleep $sleep_iterval
-
-	
-	#doLog "INFO Component testing  with TestLogger "
-	perl sfw/perl/url_shooter/t/TestLogger.pl
-	#test -z "$sleep_iterval" || sleep $sleep_iterval
+   while read -r test_file ; do 
+      test_file_name=$(basename "$test_file")
+      doLog "INFO START Component testing $test_file_name"
+      perl "$test_file"
+      doLog "INFO STOP  Component testing $test_file_name"
+      test -z "$sleep_iterval" || sleep $sleep_iterval
+   done < <(find "$product_instance_dir/sfw/perl/url_shooter/t" -type f -name '*.t')
 	
 	doLog "INFO STOP  : doRunPerlTests"
 }

@@ -3,10 +3,12 @@ use strict ; use warnings ;
 use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
 
-use UrlShooter::App::Utils::Initiator ; 
-use UrlShooter::App::Data::UrlRunner ; 
 use Test::More tests => 2 ; 
 use Data::Printer ; 
+
+use UrlShooter::App::Utils::Initiator ; 
+use UrlShooter::App::Utils::ETL::JSONHandler ; 
+
 
 my $test_name              = q{} ; 
 my $got                    = q{} ; 
@@ -29,28 +31,22 @@ my $HostName					= $objInitiator->doResolveMyHostName();
 $appConfig						= $objInitiator->get ('AppConfig'); 
 # p($appConfig) ; 
 
-my $objUrlRunner = 'UrlShooter::App::Data::UrlRunner'->new( \$appConfig ) ; 
+my $objJSONHandler = 'UrlShooter::App::Utils::ETL::JSONHandler' ->new( \$appConfig ) ; 
+   my ( $ret , $urls )     = () ; 
 
-$url           = 'https://www.google.fi' ; 
-$expected      = 0 ; 
-$http_method   = 'GET' ; 
-$test_name     = "testing that the ret from the call is $expected to the url: $url" ; 
+my $json_file              = "$ProductInstanceDir/data/json/example.postman_collection.json" ; 
 
-my ( $ret , $response_code , $response_body , $response_content )  = () ; 
-( $ret , $response_code , $response_body , $response_content ) 
-      = $objUrlRunner->doRunURL( $http_method , $url );
+( $ret , $urls) =  $objJSONHandler->doReadJSONFile( $json_file ) ; 
 
-$got = $ret ; 
-cmp_ok($got, '==', $expected, $test_name);
+p($urls);
 
+$expected                  = 'google.com' ; 
+$test_name                 = "the name of the first item is $expected" ; 
+$got                       = $urls->{'item'}[0]->{'name'} ; 
+cmp_ok($got, 'eq', $expected, $test_name);
 
-$http_method   = 'GET' ; 
-$url           = 'http://www.webopedia.com' ; 
-$expected      = 200 ; 
-$test_name     = "testing that the ret from the call is $expected to the url: $url" ; 
-( $ret , $response_code , $response_body , $response_content ) 
-      = $objUrlRunner->doRunURL( $http_method , $url );
-
-$got = $response_code ; 
-cmp_ok($got, '==', $expected, $test_name);
+$expected                  = 'webopedia' ; 
+$test_name                 = "the name of the first item is $expected" ; 
+$got                       = $urls->{'item'}[1]->{'name'} ; 
+cmp_ok($got, 'eq', $expected, $test_name);
 

@@ -1,4 +1,4 @@
-package UrlShooter::App::Ctrl::CtrlURLRun ; 
+package UrlShooter::App::Utils::ETL::JSONHandler ; 
 
 	use strict; use warnings;
 
@@ -10,20 +10,15 @@ package UrlShooter::App::Ctrl::CtrlURLRun ;
 	our $ModuleDebug = 0 ; 
 	use AutoLoader;
 
-	use Cwd qw/abs_path/;
-	use File::Path qw(make_path) ;
-   use WWW::Curl::Easy ; 
-	use Data::Printer ; 
-   use HTTP::Response ; 
-	use File::Find ; 
-	use Sys::Hostname;
-	use Carp qw /cluck confess shortmess croak carp/ ; 
 
-	use UrlShooter::App::Utils::IO::FileHandler ; 
-	use UrlShooter::App::Utils::Logger ;
-   use UrlShooter::App::Data::UrlRunner ; 
+	use Cwd qw/abs_path/;
+	use Carp qw /cluck confess shortmess croak carp/ ; 
+	use Data::Printer ; 
+   use JSON;
 	
-	our $appConfig						= {} ; 
+	use UrlShooter::App::Utils::Logger ;
+	
+   our $appConfig						= {} ; 
 	our $RunDir 						= '' ; 
 	our $ProductBaseDir 				= '' ; 
 	our $ProductDir 					= '' ; 
@@ -57,51 +52,52 @@ my ( $ret , $response_code , $response_body , $response_content )  = () ;
 	START SUBS 
 =cut
 
-# 
-# performs an http request 	
-#
-sub doRunURLs {
-   # read the list of urls 
-   my $self = shift ; 
-   my $msg        = 'START URL run' ; 
-   $objLogger->doLogInfoMsg ( $msg ) ; 
 
 
-   my $hsrUrls = {
-         1 => 'https://www.google.fi'
-      ,  2 => 'www.webopedia.com'
 
-   };
-   use Test::More  ; 
+sub doReadJSONFile {
+   
+   my $ret                 = 1 ; 
+   my $msg                 = q{} ; 
+   my $self                = shift ; 
+   my $json_file           = shift ; 
+   my $data                = q{} ; 
 
-   # -- foreach url do run it
-   foreach my $url_id ( sort ( keys %$hsrUrls ) ) {
-
-      my $objUrlShooter = 'UrlShooter::App::Data::UrlRunner'->new( \$appConfig ) ; 
-      my $url           = $hsrUrls->{ "$url_id" } ; 
-      my $http_method   = 'GET' ; 
-      my $got           = undef ; 
-      my $expected      = 200 ; 
-      my $test_name     = "testing that the ret from the call is $expected to the url: $url" ; 
-
-      my ( $ret , $response_code , $response_body , $response_content )  = () ; 
-      ( $ret , $response_code , $response_body , $response_content ) 
-            = $objUrlShooter->doRunURL( $http_method , $url );
-
-( $ret , $response_code , $response_body , $response_content ) 
-      = $objUrlShooter->doRunURL( $http_method , $url );
-
-      $got = $response_code ; 
-      cmp_ok($got, '==', $expected, $test_name);
+   binmode STDOUT, ":utf8";
+   use utf8;
+    
 
 
+
+   unless ( -r $json_file ) {
+      $msg = 'the json file does not exist or it is not readable !!!' ; 
+      $objLogger->doLogErrorMsg ( $msg ) ; 
+      return ( $ret , $data ) ; 
+   } 
+    
+   my $json;
+   {
+     local $/; #Enable 'slurp' mode
+     open my $fh, "<", "$json_file" ; 
+     $json = <$fh>;
+     close $fh;
    }
-   done_testing(); 
+   $data = decode_json($json);
+   
+   # Output to screen one of the values read
+   # print "Boss' hobbies: " .
+   # $data->{'boss'}->{'Hobbies'}->[0] . "n";
+   # Modify the value, and write the output file as json
+   # $data->{'boss'}->{'Hobbies'}->[0] = "Swimming";
+   # open my $fh, ">", "data_out.json";
+   # print $fh encode_json($data);
+   # close $fh;
+   $ret = 0  ; 
 
-   $msg        = 'STOP  URL run' ; 
-   $objLogger->doLogInfoMsg ( $msg ) ; 
+
+   return ( $ret , $data ) ; 
 }
-#eof sub doRunURLs
+#eof sub
 
 
 
@@ -111,7 +107,7 @@ sub doRunURLs {
 	# --------------------------------------------------------
 	sub doInitialize {
 	   my $self       = shift ; 	
-		$appConfig  = ${ shift @_ } if ( @_ );
+		my $appConfig  = ${ shift @_ } if ( @_ );
 
 		$objLogger 	= "UrlShooter::App::Utils::Logger"->new( \$appConfig ) ; 
 	}	
@@ -285,9 +281,7 @@ yordan.georgiev@gmail.com
 # VersionHistory: 
 # ---------------------------------------------------------
 #
-1.2.0 --- 2014-09-11 20:44:26 -- tests on Windows 
-1.1.0 --- 2014-08-27 11:29:25 -- tests passed with Test::More
-1.0.0 --- 2014-08-25 08:25:15 -- refactored away from main calling script
+1.0.0 --- 2017-02-19 15:56:04 --- ysg --- init
 
 =cut 
 
