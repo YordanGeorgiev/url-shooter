@@ -10,17 +10,18 @@ package UrlShooter::App::Ctrl::CtrlURLRun ;
 	our $ModuleDebug = 0 ; 
 	use AutoLoader;
 
-
 	use Cwd qw/abs_path/;
 	use File::Path qw(make_path) ;
-	use File::Find ; 
-	use Sys::Hostname;
-	use Carp qw /cluck confess shortmess croak carp/ ; 
-	use UrlShooter::App::Utils::IO::FileHandler ; 
-	use UrlShooter::App::Utils::Logger ;
    use WWW::Curl::Easy ; 
 	use Data::Printer ; 
    use HTTP::Response ; 
+	use File::Find ; 
+	use Sys::Hostname;
+	use Carp qw /cluck confess shortmess croak carp/ ; 
+
+	use UrlShooter::App::Utils::IO::FileHandler ; 
+	use UrlShooter::App::Utils::Logger ;
+   use UrlShooter::App::Data::UrlRunner ; 
 	
 	our $appConfig						= {} ; 
 	our $RunDir 						= '' ; 
@@ -60,7 +61,45 @@ my ( $ret , $response_code , $response_body , $response_content )  = () ;
 # performs an http request 	
 #
 sub doRunURLs {
-   print "doRunURLs" ; 
+   # read the list of urls 
+   my $self = shift ; 
+   my $msg        = 'START URL run' ; 
+   $objLogger->doLogInfoMsg ( $msg ) ; 
+
+
+   my $hsrUrls = {
+         1 => 'www.google.fi'
+      ,  2 => 'www.webopedia.com'
+
+   };
+   use Test::More  ; 
+
+   # -- foreach url do run it
+   foreach my $url_id ( sort ( keys %$hsrUrls ) ) {
+
+      my $objUrlShooter = 'UrlShooter::App::Data::UrlRunner'->new( \$appConfig ) ; 
+      my $url           = $hsrUrls->{ "$url_id" } ; 
+      my $http_method   = 'GET' ; 
+      my $got           = undef ; 
+      my $expected      = 200 ; 
+      my $test_name     = "testing that the ret from the call is $expected to the url: $url" ; 
+
+      my ( $ret , $response_code , $response_body , $response_content )  = () ; 
+      ( $ret , $response_code , $response_body , $response_content ) 
+            = $objUrlShooter->doRunURL( $http_method , $url );
+
+( $ret , $response_code , $response_body , $response_content ) 
+      = $objUrlShooter->doRunURL( $http_method , $url );
+
+      $got = $response_code ; 
+      cmp_ok($got, '==', $expected, $test_name);
+
+
+   }
+   done_testing(); 
+
+   $msg        = 'STOP  URL run' ; 
+   $objLogger->doLogInfoMsg ( $msg ) ; 
 }
 #eof sub doRunURLs
 
@@ -72,7 +111,7 @@ sub doRunURLs {
 	# --------------------------------------------------------
 	sub doInitialize {
 	   my $self       = shift ; 	
-		my $appConfig  = ${ shift @_ } if ( @_ );
+		$appConfig  = ${ shift @_ } if ( @_ );
 
 		$objLogger 	= "UrlShooter::App::Utils::Logger"->new( \$appConfig ) ; 
 	}	

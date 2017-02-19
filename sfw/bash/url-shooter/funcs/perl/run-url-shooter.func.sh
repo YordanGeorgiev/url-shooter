@@ -13,8 +13,7 @@ doRunUrlShooter(){
 	# add your action implementation code here ... 
 
 	# Action ... !!!
-	perl sfw/perl/url_shooter/script/url_shooter.pl \
-			--md-file `pwd`/data/md/isg_pub_en.Maintenance.2.README.md
+	perl sfw/perl/url_shooter/script/url_shooter.pl
 
 	doLog "DEBUG STOP  doRunUrlShooter"
 }

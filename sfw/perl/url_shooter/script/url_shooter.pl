@@ -61,9 +61,9 @@ use UrlShooter::App::Utils::Configurator ;
 use UrlShooter::App::Utils::Logger ; 
 use UrlShooter::App::Utils::ETL::UrlShooter ; 
 use UrlShooter::App::Utils::IO::FileHandler ; 
-use UrlShooter::App::Utils::ETL::UrlShooter ; 
 use UrlShooter::App::Model::DbHandlerFactory ; 
 use UrlShooter::App::Model::MariaDbHandler ; 
+use UrlShooter::App::Ctrl::CtrlURLRun ; 
 
 my $rdbms_type = 'maria_db' ; 
 #
@@ -72,9 +72,9 @@ my $rdbms_type = 'maria_db' ;
 sub main {
 
 	print " url_shooter.pl START MAIN \n " ; 
-    doInitialize();	
-	
-	my $objUrlShooter 				= 'UrlShooter::App::Utils::ETL::UrlShooter'->new ( \$appConfig ) ; 
+   doInitialize();	
+	my $obCtrlURLRun 				= 'UrlShooter::App::Ctrl::CtrlURLRun'->new ( \$appConfig ) ; 
+   $obCtrlURLRun->doRunURLs();
    
 	$objLogger->doLogInfoMsg ( "STOP  MAIN") ; 
 }
@@ -84,27 +84,26 @@ sub main {
 
 
 
-
 sub doInitialize {
 
-    $TOKEN = $ENV{'PIVOTAL_API_TOKEN'} ;  
-    $PROJECT_ID = $appConfig->{'PROJECT_ID'} ; 
+   $TOKEN = $ENV{'PIVOTAL_API_TOKEN'} ;  
+   $PROJECT_ID = $appConfig->{'PROJECT_ID'} ; 
 
-	$objInitiator 		= 'UrlShooter::App::Utils::Initiator'->new();
-	$appConfig 			= $objInitiator->get('AppConfig') ; 
-	p ( $appConfig  ) ; 
-	$objConfigurator 	= 
-	'UrlShooter::App::Utils::Configurator'->new( $objInitiator->{'ConfFile'} , \$appConfig ) ; 
-	$objLogger 			= 'UrlShooter::App::Utils::Logger'->new( \$appConfig ) ;
-		
-	$objLogger->doLogInfoMsg ( "START MAIN") ; 
-	$objLogger->doLogInfoMsg ( "START LOGGING SETTINGS ") ; 
-	p ( $appConfig  ) ; 
-	$objLogger->doLogInfoMsg ( "STOP  LOGGING SETTINGS ") ; 
+   $objInitiator 		= 'UrlShooter::App::Utils::Initiator'->new();
+   $appConfig 			= $objInitiator->get('AppConfig') ; 
+   p ( $appConfig  ) ; 
+   $objConfigurator 	= 
+   'UrlShooter::App::Utils::Configurator'->new( $objInitiator->{'ConfFile'} , \$appConfig ) ; 
+   $objLogger 			= 'UrlShooter::App::Utils::Logger'->new( \$appConfig ) ;
 
-		GetOptions(	
-			 "rdbms_type"		=>\$rdbms_type
-		);
+   $objLogger->doLogInfoMsg ( "START MAIN") ; 
+   $objLogger->doLogInfoMsg ( "START LOGGING SETTINGS ") ; 
+   p ( $appConfig  ) ; 
+   $objLogger->doLogInfoMsg ( "STOP  LOGGING SETTINGS ") ; 
+
+	GetOptions(	
+	   "rdbms_type"		=>\$rdbms_type
+   );
 }
 #eof doInitialize
 

@@ -340,3 +340,5 @@ sfw/perl/url_shooter/lib/auto/UrlShooter/App/Utils/Timer/autosplit.ix
 sfw/perl/url_shooter/lib/auto/UrlShooter/App/Model/MariaDbHandler/autosplit.ix
 tags
 1
+conf/hosts/doc-pub-host/home/ysg/.tmux.conf.1.1.1.20170219_143200.backup
+conf/hosts/doc-pub-host/home/ysg/.tmux-session.1.0.0.20170219_143250.backup
