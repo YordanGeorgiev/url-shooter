@@ -13,7 +13,10 @@ doRunUrlShooter(){
 	# add your action implementation code here ... 
 
 	# Action ... !!!
-	perl sfw/perl/url_shooter/script/url_shooter.pl
+   json_file="$product_instance_dir/data/json/example.postman_collection.json"
+   doLog "passing as cmd arg the following json_file $json_file"
+
+	perl sfw/perl/url_shooter/script/url_shooter.pl --json-file "$json_file"
 
 	doLog "DEBUG STOP  doRunUrlShooter"
 }

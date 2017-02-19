@@ -3,6 +3,7 @@ sfw/bash/url-shooter/test-url-shooter.sh
 sfw/bash/url-shooter/tests/run-url-shooter-tests.lst
 sfw/bash/url-shooter/tests/all-url-shooter-tests.lst
 sfw/bash/url-shooter/funcs/perl/run-perl-tests.func.sh
+sfw/bash/url-shooter/funcs/perl/run-url-shooter.func.sh
 sfw/perl
 sfw/perl/url_shooter
 sfw/perl/url_shooter/lib
@@ -218,7 +219,6 @@ sfw/bash/url-shooter/funcs/pckg/gmail-package.func.sh
 sfw/bash/url-shooter/funcs/pckg/remove-package.func.sh
 sfw/bash/url-shooter/funcs/perl
 sfw/bash/url-shooter/funcs/perl/check-perl-syntax.func.sh
-sfw/bash/url-shooter/funcs/perl/run-url-shooter.func.sh
 sfw/bash/url-shooter/funcs/remove-action-files.func.sh
 sfw/bash/url-shooter/funcs/remove-package.func.sh
 sfw/bash/url-shooter/funcs/save-tmux-session.func.sh

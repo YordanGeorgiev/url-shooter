@@ -64,7 +64,12 @@ use UrlShooter::App::Model::DbHandlerFactory ;
 use UrlShooter::App::Model::MariaDbHandler ; 
 use UrlShooter::App::Ctrl::CtrlURLRun ; 
 
-my $rdbms_type = 'maria_db' ; 
+my $rdbms_type    = 'maria_db' ; 
+my $json_file     = q{} ; 
+
+
+
+
 #
 # the main entry point of the application
 #
@@ -73,13 +78,11 @@ sub main {
 	print " url_shooter.pl START MAIN \n " ; 
    doInitialize();	
 	my $obCtrlURLRun 				= 'UrlShooter::App::Ctrl::CtrlURLRun'->new ( \$appConfig ) ; 
-   $obCtrlURLRun->doRunURLs();
+   $obCtrlURLRun->doRunURLs( $json_file );
    
 	$objLogger->doLogInfoMsg ( "STOP  MAIN") ; 
 }
 #eof sub main
-
-
 
 
 
@@ -91,9 +94,10 @@ sub doInitialize {
    $objInitiator 		= 'UrlShooter::App::Utils::Initiator'->new();
    $appConfig 			= $objInitiator->get('AppConfig') ; 
    p ( $appConfig  ) ; 
-   $objConfigurator 	= 
-   'UrlShooter::App::Utils::Configurator'->new( $objInitiator->{'ConfFile'} , \$appConfig ) ; 
-   $objLogger 			= 'UrlShooter::App::Utils::Logger'->new( \$appConfig ) ;
+   $objConfigurator 	
+      = 'UrlShooter::App::Utils::Configurator'->new( $objInitiator->{'ConfFile'} , \$appConfig ) ; 
+   $objLogger 			
+      = 'UrlShooter::App::Utils::Logger'->new( \$appConfig ) ;
 
    $objLogger->doLogInfoMsg ( "START MAIN") ; 
    $objLogger->doLogInfoMsg ( "START LOGGING SETTINGS ") ; 
@@ -101,7 +105,8 @@ sub doInitialize {
    $objLogger->doLogInfoMsg ( "STOP  LOGGING SETTINGS ") ; 
 
 	GetOptions(	
-	   "rdbms_type"		=>\$rdbms_type
+	   "rdbms_type:s"		=>\$rdbms_type
+	   , "json-file:s"		=>\$json_file
    );
 }
 #eof doInitialize
