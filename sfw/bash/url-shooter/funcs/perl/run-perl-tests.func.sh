@@ -10,7 +10,7 @@ doRunPerlTests(){
 	doLog "INFO START : doRunPerlTests"
 
 	doLog "INFO START Component testing TestInitiator.t"
-	#perl sfw/perl/url_shooter/t/TestInitiator.t
+	perl sfw/perl/url_shooter/t/TestInitiator.t
 	doLog "INFO STOP  Component testing TestInitiator.t"
 	test -z "$sleep_iterval" || sleep $sleep_iterval
 
@@ -21,7 +21,7 @@ doRunPerlTests(){
 
 	
 	#doLog "INFO Component testing  with TestLogger "
-	#perl sfw/perl/url_shooter/t/TestLogger.pl
+	perl sfw/perl/url_shooter/t/TestLogger.pl
 	#test -z "$sleep_iterval" || sleep $sleep_iterval
 	
 	doLog "INFO STOP  : doRunPerlTests"

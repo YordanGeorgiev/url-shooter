@@ -1,4 +1,4 @@
-package UrlShooter::App::Data::UrlRunner ; 
+package UrlShooter::App::Ctrl::CtrlURLRun ; 
 
 	use strict; use warnings;
 
@@ -59,78 +59,10 @@ my ( $ret , $response_code , $response_body , $response_content )  = () ;
 # 
 # performs an http request 	
 #
-sub doRunURL {
-
-   my $self               = shift ; 
-   my $http_method_type   = shift ; 
-   my $url                = shift ;   
-   my $headers            = shift ; 
-
-   my $curl = WWW::Curl::Easy->new();
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_HEADER(),1);
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_MAXREDIRS(),3);
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_URL(), "$url" );
-   ## Set up the standard GET/POST request options
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_VERBOSE, 0);                  # Disable verbosity
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_HEADER, 0);                   # Don't include header in body 
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_NOPROGRESS, 1);               # Disable internal progress meter
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_FOLLOWLOCATION, 0);           # Disable automatic location redirects
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_FAILONERROR, 0);              # Setting this to true fails on HTTP error
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_SSL_VERIFYPEER, 0);           # Ignore bad SSL
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_SSL_VERIFYHOST, 0);           # Ignore bad SSL
-   # $curl->setopt(WWW::Curl::Easy::CURLOPT_NOSIGNAL, 1);                 # To make thread safe, disable signals
-   # $curl->setopt(WWW::Curl::Easy::CURLOPT_ENCODING, 'gzip');            # Allow gzip compressed pages
-
-   if ( $headers ) { 
-      for my $key ( sort ( keys %$headers )) {
-         my $header_name = $key ; 
-         my $header_val = $headers->{ "$key" } ; 
-         $curl->setopt(WWW::Curl::Easy::CURLOPT_HTTPHEADER() , [ $header_name . $header_val ]  );
-      }
-   }
-
-   if ( $http_method_type eq 'POST' ) {
-      $curl->setopt(WWW::Curl::Easy::CURLOPT_POST(), 1);
-   }
-
-   # A filehandle, reference to a scalar or reference to a typeglob can be used here.
-   my $response_body       = q{} ; 
-   my $response_code       = q{} ; 
-   my $response_content    = q{} ; 
-
-   $curl->setopt(WWW::Curl::Easy::CURLOPT_WRITEDATA(),\$response_body);
-
-   # Starts the actual request
-   my $ret = $curl->perform;
-
-
-   if ($ret == 0) {
-      my $msg = "OK for the curl transfer for the url: $url " ; 
-      $objLogger->doLogInfoMsg ( $msg ) ; 
-      
-      $response_code = $curl->getinfo(CURLINFO_HTTP_CODE);
-      $response_content = HTTP::Response->parse( "$response_body" ) ; 
-      $response_content = $response_content->content;
-
-      #my $json_str = HTTP::Response->parse($response_body);
-      # print("Received response: $response_body\n");
-      #p($response_body);
-      #$json_str = $response_body->content ; 
-
-      #my $json_data = JSON->new->utf8->decode($json_str);
-      #p($json_data);
-      #debug p ( $response_content ) ; 
-      
-
-   } else {
-      my $msg = "An error happened: $ret ".$curl->strerror($ret)." ".$curl->errbuf."\n" ; 
-      $objLogger->doLogErrorMsg ( $msg ) ; 
-      #  Error code, type of error, error message
-   }
-
-   return ( $ret , $response_code , $response_body , $response_content ) ; 
+sub doRunURLs {
+   print "doRunURLs" ; 
 }
-#eof sub
+#eof sub doRunURLs
 
 
 

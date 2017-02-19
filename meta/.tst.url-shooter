@@ -8,6 +8,8 @@ sfw/perl/url_shooter
 sfw/perl/url_shooter/lib
 sfw/perl/url_shooter/lib/UrlShooter
 sfw/perl/url_shooter/lib/UrlShooter/App
+sfw/perl/url_shooter/lib/UrlShooter/App/Ctrl
+sfw/perl/url_shooter/lib/UrlShooter/App/Ctrl/CtrlURLRun.pm
 sfw/perl/url_shooter/lib/UrlShooter/App/Model
 sfw/perl/url_shooter/lib/UrlShooter/App/Model/DbHandlerFactory.pm
 sfw/perl/url_shooter/lib/UrlShooter/App/Model/MariaDbHandler.pm

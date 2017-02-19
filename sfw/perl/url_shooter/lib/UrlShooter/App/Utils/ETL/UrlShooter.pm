@@ -232,61 +232,6 @@ package UrlShooter::App::Utils::ETL::UrlShooter ;
 
 =head1 WIP
 
-
-	sub doShiftToRight {
-		my $self 		= shift ; 
-		my $refhsref 	= shift ; 
-		my $hsref		= $$refhsref ; 
-		my $cur_hsr		= shift ; 
-
-
-		my $pLeftRank	= 1 ; 
-
-		# get the point to the shift 
-		foreach my $key ( sort ( keys ( $hsref ) ) ) {
-
-			my $wip_hash = $hsref->{ $key } ; 
-
-			# -- get the point to shift 
-			# SELECT @pLeftRank := LeftRank from Item where ItemId = @pParentItemId ; 
-			if ( ( $key - 1) == $cur_hsr->{ 'ParentItemId' } ) {
-
-				$pLeftRank	= $hsref->{ ($key -1 ) }->{ 'LeftRank'} ; 
-			}
-		}
-		#eof foreach key
-
-
-
-		# shift the shiftable left ranks by two positions
-		foreach my $key ( sort ( keys ( $hsref ) ) ) {
-
-			my $wip_hash = $hsref->{ $key } ; 
-			
-			# UPDATE Item set RightRank = ( RightRank + 2 ) where RightRank > @pLeftRank; 
-			if ( $wip_hash->{ 'RightRank' } > $pLeftRank ) {
-				$wip_hash->{ 'RightRank' } = $wip_hash->{ 'RightRank' } + 2 ; 
-				$hsref->{ $key } = $wip_hash ; 
-			}
-
-
-			# UPDATE Item set LeftRank = ( LeftRank + 2 ) where LeftRank > @pLeftRank; 
-			if ( $wip_hash->{ 'LeftRank' } > $pLeftRank ) {
-				$wip_hash->{ 'LeftRank' } = $wip_hash->{ 'LeftRank' } + 2 ; 
-				$hsref->{ $key } = $wip_hash ; 
-			}
-
-		}
-		#eof foreach key
-
-		# INSERT into Item VALUES ( 1 , 1 , NULL , 1 , @pLeftRank+1 , @pLeftRank+2,'1.0.0' ) ;
-		$hsref->{ $cur_hsr->{ 'SeqId' } }->{ 'LeftRank'} = $pLeftRank + 1 ; 
-		$hsref->{ $cur_hsr->{ 'SeqId' } }->{ 'RightRank'} = $pLeftRank + 2 ; 
-
-
-
-	}
-	#eof sub doShiftToRight {
 	
 =cut
 
