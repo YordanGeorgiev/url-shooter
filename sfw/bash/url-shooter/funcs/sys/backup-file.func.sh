@@ -7,18 +7,18 @@
 # and includes them bothh ito the include file 
 # ---------------------------------------------------------
 doBackupFile(){
-	cd $product_version_dir
+	cd $product_instance_dir
 
 	doLog "START doBackupFile"
 	test -z "$file_to_backup" && doExit 3 "no file to backup -> do export file_to_backup=<<file>>"
 	cur_rel_file=conf/hosts/`hostname -s`/$file_to_backup
 
 	if [[ "$file_to_backup" != /* ]]
-		then file_to_backup="$product_version_dir/$file_to_backup"
+		then file_to_backup="$product_instance_dir/$file_to_backup"
 	fi
 	
 	test -z "$backup_root_dir" && \
-		backup_root_dir=$product_version_dir/conf/hosts/`hostname -s` && \
+		backup_root_dir=$product_instance_dir/conf/hosts/`hostname -s` && \
 			mkdir -p "$backup_root_dir"
 
 	cmd="test -f $file_to_backup"
@@ -36,10 +36,10 @@ doBackupFile(){
 
 	#define default vars
 	test -z $include_file         && \
-		include_file="$product_version_dir/meta/.$env_type.$wrap_name"
+		include_file="$product_instance_dir/meta/.$env_type.$wrap_name"
 
 	# relative file path is passed turn it to absolute one 
-	[[ $include_file == /* ]] || include_file=$product_version_dir/$include_file
+	[[ $include_file == /* ]] || include_file=$product_instance_dir/$include_file
 
 	
 	# the timestamped file to be backup should be included in the full package of the app

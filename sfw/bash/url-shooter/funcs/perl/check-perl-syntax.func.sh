@@ -19,7 +19,7 @@ trap 'doExit $LINENO $BASH_COMMAND; exit' SIGHUP SIGINT SIGQUIT
 doCheckPerlSyntax(){
 	set +x	
 	doLog "INFO == START == doCheckPerlSyntax"
-	cd $product_version_dir
+	cd $product_instance_dir
 
 	#remove all the autosplit.ix files 
 	find . -name autosplit.ix | xargs rm -fv
@@ -37,7 +37,7 @@ doCheckPerlSyntax(){
 
 		echo -e "\n"
 		echo "start compiling $dir ..." ; 
-		cd $product_version_dir/sfw/perl/$dir ; 
+		cd $product_instance_dir/sfw/perl/$dir ; 
 
 		# run the autoloader utility	
 		find . -name '*.pm' -exec perl -MAutoSplit -e 'autosplit($ARGV[0], $ARGV[1], 0, 1, 1)' {} \;
@@ -53,14 +53,14 @@ doCheckPerlSyntax(){
 		
 			echo "stop compiling $dir ..." ; 
 			echo -e "\n\n"
-			cd $product_version_dir ; 
+			cd $product_instance_dir ; 
 	
 	done < <(ls -1 "sfw/perl")
 
 
 	echo -e "\n"
 	test $ret -ne 0 && doExit 4 "Perl syntax error" ; 
-	cd $product_version_dir
+	cd $product_instance_dir
 	sleep 1 ; 
 
 	# and clear the screen

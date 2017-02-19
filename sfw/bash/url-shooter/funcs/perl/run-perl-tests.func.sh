@@ -6,15 +6,23 @@
 # ---------------------------------------------------------
 doRunPerlTests(){
 	
-	doLog "DEBUG START : doRunPerlTests"
+   cd $product_instance_dir
+	doLog "INFO START : doRunPerlTests"
 
-	doLog "INFO Component testing Initiator.pm with TestInitiator "
-	perl sfw/perl/url_shooter/t/TestInitiator.pm
+	doLog "INFO START Component testing TestInitiator.t"
+	#perl sfw/perl/url_shooter/t/TestInitiator.t
+	doLog "INFO STOP  Component testing TestInitiator.t"
 	test -z "$sleep_iterval" || sleep $sleep_iterval
+
+	doLog "INFO START Component testing TestUrlRunner.t"
+   perl sfw/perl/url_shooter/t/TestUrlRunner.t
+	doLog "INFO STOP  Component testing TestUrlRunner.t"
+	test -z "$sleep_iterval" || sleep $sleep_iterval
+
 	
-	doLog "INFO Component testing Logger.pm with TestLogger "
-	perl sfw/perl/url_shooter/t/TestLogger.pl
-	test -z "$sleep_iterval" || sleep $sleep_iterval
+	#doLog "INFO Component testing  with TestLogger "
+	#perl sfw/perl/url_shooter/t/TestLogger.pl
+	#test -z "$sleep_iterval" || sleep $sleep_iterval
 	
 	doLog "INFO STOP  : doRunPerlTests"
 }

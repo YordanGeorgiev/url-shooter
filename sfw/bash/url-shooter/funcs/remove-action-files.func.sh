@@ -2,7 +2,7 @@
 
 # v1.1.2
 # ---------------------------------------------------------
-# obs we assume that the caller is in the product_version_dir
+# obs we assume that the caller is in the product_instance_dir
 # simply delete each file which greps finds to match to the action
 # name(s) configured in the : 
 # sfw/bash/url-shooter/tests/rem-url-shooter-actions.lst

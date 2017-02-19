@@ -14,10 +14,10 @@ doCreateFull7zPackage(){
 	test -z "$pcking_pw" && doExit 1 " Empty packaging password-> do export pcking_pw=secret !!!"
 	#define default vars
 	test -z $include_file         && \
-		include_file="$product_version_dir/meta/.$env_type.$wrap_name"
+		include_file="$product_instance_dir/meta/.$env_type.$wrap_name"
 
 	# relative file path is passed turn it to absolute one 
-	[[ $include_file == /* ]] || include_file=$product_version_dir/$include_file
+	[[ $include_file == /* ]] || include_file=$product_instance_dir/$include_file
 
 	test -f $include_file || \
 		doExit 3 "did not found any relative file paths containing deploy file @ $include_file"
@@ -28,8 +28,8 @@ doCreateFull7zPackage(){
 	zip_7z_file_name=$(echo $include_file | rev | cut -d. -f 1 | rev)
 	zip_7z_file_name="$zip_7z_file_name.$product_version.$env_type.$timestamp.$host_name.7z"
 	zip_7z_file="$product_dir/$zip_7z_file_name"
-	mkdir -p $product_version_dir/data/$url-shooter/tmp
-	echo $zip_7z_file>$product_version_dir/data/$url-shooter/tmp/zip_7z_file
+	mkdir -p $product_instance_dir/data/$url-shooter/tmp
+	echo $zip_7z_file>$product_instance_dir/data/$url-shooter/tmp/zip_7z_file
 	set -x	
 
 	# start: add the perl_ignore_file_pattern
@@ -46,14 +46,14 @@ doCreateFull7zPackage(){
 	ret=0
 	while read f ; do
 		[[ $f == '#'* ]] && continue ; 
-		test -d "$product_version_dir/$f" && continue ; 
-		test -f "$product_version_dir/$f" && continue ; 
-		test -f "$product_version_dir/$f" || doLog 'FATAL cannot find the file: "'"$product_version_dir/$f"'" to package it' ;  
-		test -f "$product_version_dir/$f" || doLog 'ERROR search for it in the '"$include_file"' ' ;  
-		test -f "$product_version_dir/$f" || doLog 'INFO if you need the file add it to the list file  ' ;  
-		test -f "$product_version_dir/$f" || doLog 'INFO if you do not need the file remove it from the list file  ' ;  
-		test -f "$product_version_dir/$f" || ret=1
-		test -f "$product_version_dir/$f" && break ;
+		test -d "$product_instance_dir/$f" && continue ; 
+		test -f "$product_instance_dir/$f" && continue ; 
+		test -f "$product_instance_dir/$f" || doLog 'FATAL cannot find the file: "'"$product_instance_dir/$f"'" to package it' ;  
+		test -f "$product_instance_dir/$f" || doLog 'ERROR search for it in the '"$include_file"' ' ;  
+		test -f "$product_instance_dir/$f" || doLog 'INFO if you need the file add it to the list file  ' ;  
+		test -f "$product_instance_dir/$f" || doLog 'INFO if you do not need the file remove it from the list file  ' ;  
+		test -f "$product_instance_dir/$f" || ret=1
+		test -f "$product_instance_dir/$f" && break ;
 	done < <(cat $include_file)
 
 	doLog "DEBUG ret is $ret "

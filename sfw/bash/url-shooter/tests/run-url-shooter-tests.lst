@@ -1,7 +1,9 @@
+# lines startgin with # are ignored , the ## cuts the loop
+run-perl-tests
+##
 # check-perl-modules-prerequisites
-check-perl-syntax
-# run-perl-tests
-#run-url-shooter
+# check-perl-syntax
+# run-url-shooter
 # remove-action-files
 # create-full-7z-package
 # create-relative-7z-package

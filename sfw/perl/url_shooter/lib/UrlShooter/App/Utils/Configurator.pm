@@ -34,7 +34,7 @@ package UrlShooter::App::Utils::Configurator ;
 		# Whether or not to pring TRACE messages
 		, PrintTraceMsgs =>                 1 
 		# The logging directory 
-		, LogDir => '%ProductVersionDir%/data/log'
+		, LogDir => '%ProductInstanceDir%/data/log'
 		# the environment name of this product instance 
 		, EnvironmentName =>   	'%ProductName%.%ProductVersion%.%ProductType%.%ProductOwner%'
 		# the default Log file

@@ -5,7 +5,7 @@
 # tests the full package creation
 #------------------------------------------------------------------------------
 doTestCreateFullPackage(){
-	cd $product_version_dir
+	cd $product_instance_dir
 	doLog " INFO START : create-full-package.test"
 	
 	cat docs/txt/url-shooter/tests/pckg/create-full-package.test.txt
@@ -18,15 +18,15 @@ doTestCreateFullPackage(){
 	test -z "$sleep_interval" || sleep "$sleep_interval"
    printf "\033[2J";printf "\033[0;0H"
 
-	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_version_dir/meta/.tst.url-shooter
+	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_instance_dir/meta/.tst.url-shooter
 	test -z "$sleep_interval" || sleep "$sleep_interval"
    printf "\033[2J";printf "\033[0;0H"
 	
-	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_version_dir/meta/.prd.url-shooter
+	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_instance_dir/meta/.prd.url-shooter
 	test -z "$sleep_interval" || sleep "$sleep_interval"
    printf "\033[2J";printf "\033[0;0H"
 	
-	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_version_dir/meta/.git.url-shooter
+	bash sfw/bash/url-shooter/url-shooter.sh -a create-full-package -i $product_instance_dir/meta/.git.url-shooter
 	test -z "$sleep_interval" || sleep "$sleep_interval"
    printf "\033[2J";printf "\033[0;0H"
 

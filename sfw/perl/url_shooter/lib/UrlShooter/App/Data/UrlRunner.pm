@@ -14,19 +14,19 @@ package UrlShooter::App::Data::UrlRunner ;
 	use Cwd qw/abs_path/;
 	use File::Path qw(make_path) ;
 	use File::Find ; 
-	use File::Copy;
-	use File::Copy::Recursive ; 
 	use Sys::Hostname;
 	use Carp qw /cluck confess shortmess croak carp/ ; 
 	use UrlShooter::App::Utils::IO::FileHandler ; 
 	use UrlShooter::App::Utils::Logger ;
+   use WWW::Curl::Easy ; 
 	use Data::Printer ; 
+   use HTTP::Response ; 
 	
 	our $appConfig						= {} ; 
 	our $RunDir 						= '' ; 
 	our $ProductBaseDir 				= '' ; 
 	our $ProductDir 					= '' ; 
-	our $ProductVersionDir 			= ''; 
+	our $ProductInstanceDir 			= ''; 
 	our $EnvironmentName 			= '' ; 
 	our $ProductName 					= '' ; 
 	our $ProductType 					= '' ; 
@@ -38,11 +38,10 @@ package UrlShooter::App::Data::UrlRunner ;
 
 =head1 SYNOPSIS
 
-	doResolves the product version and base dirs , bootstraps config files if needed
+my ( $ret , $response_code , $response_body , $response_content )  = () ; 
+( $ret , $response_code , $response_body , $response_content ) 
+      = $objUrlShooter->doRunURL( $http_method , $url );
 
-		use UrlShooter::App::Utils::ETL::UrlShooter ;
-		my $objUrlShooter = 
-			'UrlShooter::App::Utils::ETL::UrlShooter'->new ( \$appConfig ) ; 
 =cut 
 
 =head1 EXPORT
@@ -62,57 +61,77 @@ package UrlShooter::App::Data::UrlRunner ;
 #
 sub doRunURL {
 
-    my $self               = shift ; 
-    my $http_method_type   = shift ; 
-    my $url                = shift ;   
-    my $headers            = shift ; 
+   my $self               = shift ; 
+   my $http_method_type   = shift ; 
+   my $url                = shift ;   
+   my $headers            = shift ; 
 
-    my $curl = WWW::Curl::Easy->new;
-    $curl->setopt(WWW::Curl::Easy::CURLOPT_HEADER(),1);
-    $curl->setopt(WWW::Curl::Easy::CURLOPT_URL(), "$url" );
+   my $curl = WWW::Curl::Easy->new();
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_HEADER(),1);
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_MAXREDIRS(),3);
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_URL(), "$url" );
+   ## Set up the standard GET/POST request options
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_VERBOSE, 0);                  # Disable verbosity
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_HEADER, 0);                   # Don't include header in body 
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_NOPROGRESS, 1);               # Disable internal progress meter
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_FOLLOWLOCATION, 0);           # Disable automatic location redirects
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_FAILONERROR, 0);              # Setting this to true fails on HTTP error
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_SSL_VERIFYPEER, 0);           # Ignore bad SSL
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_SSL_VERIFYHOST, 0);           # Ignore bad SSL
+   # $curl->setopt(WWW::Curl::Easy::CURLOPT_NOSIGNAL, 1);                 # To make thread safe, disable signals
+   # $curl->setopt(WWW::Curl::Easy::CURLOPT_ENCODING, 'gzip');            # Allow gzip compressed pages
 
-    for my $key ( sort ( keys %$headers )) {
-      my $header_name = $key ; 
-      my $header_val = $headers->{ "$key" } ; 
-      $curl->setopt(WWW::Curl::Easy::CURLOPT_HTTPHEADER() , [ $header_name . $header_val ]  );
-    }
+   if ( $headers ) { 
+      for my $key ( sort ( keys %$headers )) {
+         my $header_name = $key ; 
+         my $header_val = $headers->{ "$key" } ; 
+         $curl->setopt(WWW::Curl::Easy::CURLOPT_HTTPHEADER() , [ $header_name . $header_val ]  );
+      }
+   }
 
-
-    if ( $http_method_type eq 'POST' ) {
+   if ( $http_method_type eq 'POST' ) {
       $curl->setopt(WWW::Curl::Easy::CURLOPT_POST(), 1);
-    }
+   }
 
-    # A filehandle, reference to a scalar or reference to a typeglob can be used here.
-    my $response_body;
-    $curl->setopt(WWW::Curl::Easy::CURLOPT_WRITEDATA(),\$response_body);
-    
-    # Starts the actual request
-    my $ret = $curl->perform;
+   # A filehandle, reference to a scalar or reference to a typeglob can be used here.
+   my $response_body       = q{} ; 
+   my $response_code       = q{} ; 
+   my $response_content    = q{} ; 
+
+   $curl->setopt(WWW::Curl::Easy::CURLOPT_WRITEDATA(),\$response_body);
+
+   # Starts the actual request
+   my $ret = $curl->perform;
 
 
-    if ($ret == 0) {
-        
-        print("Transfer went ok\n");
-        my $response_code = $curl->getinfo('CURLINFO_HTTP_CODE');
-        # judge result and next action based on $response_code
+   if ($ret == 0) {
+      my $msg = "OK for the curl transfer for the url: $url " ; 
+      $objLogger->doLogInfoMsg ( $msg ) ; 
+      
+      $response_code = $curl->getinfo(CURLINFO_HTTP_CODE);
+      $response_content = HTTP::Response->parse( "$response_body" ) ; 
+      $response_content = $response_content->content;
 
-        my $json_str = HTTP::Response->parse($response_body);
-        $response_body = HTTP::Response->parse($response_body);
-        print("Received response: $response_body\n");
-        #p($response_body);
-        $json_str = $response_body->content ; 
+      #my $json_str = HTTP::Response->parse($response_body);
+      # print("Received response: $response_body\n");
+      #p($response_body);
+      #$json_str = $response_body->content ; 
 
-        my $json_data = JSON->new->utf8->decode($json_str);
-        p($json_data);
+      #my $json_data = JSON->new->utf8->decode($json_str);
+      #p($json_data);
+      #debug p ( $response_content ) ; 
+      
 
-    } else {
-       # Error code, type of error, error message
-        print("An error happened: $ret ".$curl->strerror($ret)." ".$curl->errbuf."\n");
-    }
-   
+   } else {
+      my $msg = "An error happened: $ret ".$curl->strerror($ret)." ".$curl->errbuf."\n" ; 
+      $objLogger->doLogErrorMsg ( $msg ) ; 
+      #  Error code, type of error, error message
+   }
 
+   return ( $ret , $response_code , $response_body , $response_content ) ; 
 }
 #eof sub
+
 
 
 	#
@@ -120,7 +139,9 @@ sub doRunURL {
 	# intializes this object 
 	# --------------------------------------------------------
 	sub doInitialize {
-		
+	   my $self       = shift ; 	
+		my $appConfig  = ${ shift @_ } if ( @_ );
+
 		$objLogger 	= "UrlShooter::App::Utils::Logger"->new( \$appConfig ) ; 
 	}	
 	#eof sub doInitialize
@@ -202,16 +223,16 @@ sub doRunURL {
 	# the constructor 
 	# -----------------------------------------------------------------------------
 	sub new {
+      my $class            = shift ;    # Class name is in the first parameter
+		$appConfig = ${ shift @_ } if ( @_ );
+
+      # Anonymous hash reference holds instance attributes
+      my $self = { }; 
+      bless($self, $class);     # Say: $self is a $class
+
+      $self->doInitialize( \$appConfig ) ; 
+      return $self;
 		
-		my $invocant = shift;    
-		# might be class or object, but in both cases invocant
-		my $class = ref ( $invocant ) || $invocant ; 
-
-		my $self = {};        # Anonymous hash reference holds instance attributes
-		bless( $self, $class );    # Say: $self is a $class
-
-
-		return $self;
 	}  
 	#eof const
 

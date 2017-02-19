@@ -11,10 +11,10 @@ doCreateFullPackage(){
 
 	#define default vars
 	test -z $include_file         && \
-		include_file="$product_version_dir/meta/.$env_type.$wrap_name"
+		include_file="$product_instance_dir/meta/.$env_type.$wrap_name"
 
 	# relative file path is passed turn it to absolute one 
-	[[ $include_file == /* ]] || include_file=$product_version_dir/$include_file
+	[[ $include_file == /* ]] || include_file=$product_instance_dir/$include_file
 
 	test -f "$include_file" || \
 		doExit 3 "the deployment file: "'"'"$include_file"'" does not exist !!!'
@@ -38,8 +38,8 @@ doCreateFullPackage(){
 	zip_file_name=$(echo $include_file | rev | cut -d. -f 1 | rev)
 	zip_file_name="$zip_file_name.$product_version.$tgt_env_type.$timestamp.$host_name.zip"
 	zip_file="$product_dir/$zip_file_name"
-	mkdir -p $product_version_dir/data/$url-shooter/tmp
-	echo $zip_file>$product_version_dir/data/$url-shooter/tmp/zip_file
+	mkdir -p $product_instance_dir/data/$url-shooter/tmp
+	echo $zip_file>$product_instance_dir/data/$url-shooter/tmp/zip_file
 
 
 	# zip MM ops
@@ -52,9 +52,9 @@ doCreateFullPackage(){
 	set +x
 	test $ret -gt 0 && (
 		while IFS='' read f ; do (
-			test -d "$product_version_dir/$f" && continue ; 
-			test -f "$product_version_dir/$f" && continue ; 
-			test -f "$product_version_dir/$f" || doLog 'ERROR not a file '"$f" ;  
+			test -d "$product_instance_dir/$f" && continue ; 
+			test -f "$product_instance_dir/$f" && continue ; 
+			test -f "$product_instance_dir/$f" || doLog 'ERROR not a file '"$f" ;  
 		); 
 		done < <(cat $include_file)
 	);

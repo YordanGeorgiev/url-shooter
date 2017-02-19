@@ -46,18 +46,20 @@ use ExtUtils::Installed;
 	sub doCheckRequiredModules {
 
 		my @modules = qw(
+         DBI
+         DBD::mysql
 			ExtUtils::Installed
 			Carp::Always
 			Data::Printer
 			File::Copy
 			File::Find
 			File::Path
-            Data::Printer 
-            URI::Encode 
-            JSON
-            JSON::Parse
-            WWW::Curl
-
+         Data::Printer 
+         URI::Encode 
+         JSON
+         JSON::Parse
+         WWW::Curl
+         HTTP::Response
 		);
 
 		for(@modules) {

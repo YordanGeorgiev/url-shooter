@@ -23,7 +23,7 @@ package UrlShooter::App::Utils::Initiator ;
 	our $RunDir 						= '' ; 
 	our $ProductBaseDir 				= '' ; 
 	our $ProductDir 					= '' ; 
-	our $ProductVersionDir 			= ''; 
+	our $ProductInstanceDir 			= ''; 
 	our $EnvironmentName 			= '' ; 
 	our $ProductName 					= '' ; 
 	our $ProductType 					= '' ; 
@@ -136,7 +136,7 @@ package UrlShooter::App::Utils::Initiator ;
 	# the product version dir is the dir where this product 
 	# instance is situated
 	# ---------------------------------------------------------
-	sub doResolveMyProductVersionDir {
+	sub doResolveMyProductInstanceDir {
 
 		my $self = shift;
 		my $msg  = ();
@@ -144,7 +144,7 @@ package UrlShooter::App::Utils::Initiator ;
 
 		#doResolve the run dir where this scripts is placed
 		my $my_absolute_path = abs_path( $0 );
-		my $product_version_dir = '' ; 
+		my $product_instance_dir = '' ; 
 
 		#debug print "\$my_absolute_path is $my_absolute_path \n" ;
 		$my_absolute_path =~ m/^(.*)(\\|\/)(.*)/;
@@ -157,17 +157,17 @@ package UrlShooter::App::Utils::Initiator ;
 			#print "\@DirParts : @DirParts \n" ; 
 		}
 		
-		$product_version_dir 					= join( '/' , @DirParts );
-		$ProductVersionDir 						= $product_version_dir ; 
-		$product_version_dir 					= $self->untaint ( $product_version_dir); 
-		$ProductVersionDir 						= $self->untaint ( $product_version_dir); 
-		$self->{'ProductVersionDir'} 			= $ProductVersionDir ; 
-		$appConfig->{'ProductVersionDir'} 	= $ProductVersionDir ; 
+		$product_instance_dir 					= join( '/' , @DirParts );
+		$ProductInstanceDir 						= $product_instance_dir ; 
+		$product_instance_dir 					= $self->untaint ( $product_instance_dir); 
+		$ProductInstanceDir 						= $self->untaint ( $product_instance_dir); 
+		$self->{'ProductInstanceDir'} 			= $ProductInstanceDir ; 
+		$appConfig->{'ProductInstanceDir'} 	= $ProductInstanceDir ; 
 		$self->{'appConfig'} 				= $appConfig; 
 
-		return $ProductVersionDir;
+		return $ProductInstanceDir;
 	}
-	#eof sub doResolveMyProductVersionDir
+	#eof sub doResolveMyProductInstanceDir
 
 	#
 	# ---------------------------------------------------------
@@ -179,8 +179,8 @@ package UrlShooter::App::Utils::Initiator ;
 		my $self = shift;
 		my $msg  = ();
 
-		my $ProductVersionDir 	= $self->doResolveMyProductVersionDir();
-		$EnvironmentName 			= $ProductVersionDir ; 
+		my $ProductInstanceDir 	= $self->doResolveMyProductInstanceDir();
+		$EnvironmentName 			= $ProductInstanceDir ; 
 		$EnvironmentName 			=~ s#$ProductBaseDir\/##g ;
 		$EnvironmentName 			=~ s#(.*?)(\/|\\)(.*)#$3#g ;
 		$EnvironmentName 			= $self->untaint ( $EnvironmentName ); 
@@ -225,7 +225,7 @@ package UrlShooter::App::Utils::Initiator ;
 		my $msg  = ();
 		
 		my $ProductVersion	= '' ;
-		my $ProductVersionDir 		= $self->doResolveMyProductVersionDir();
+		my $ProductInstanceDir 		= $self->doResolveMyProductInstanceDir();
 		my $EnvironmentName 			= $self->doResolveMyEnvironmentName();
 		
 
@@ -329,11 +329,11 @@ package UrlShooter::App::Utils::Initiator ;
 		my $self 						= shift;
 		my $msg  						= ();
 		
-		my $ProductVersionDir		= $self->doResolveMyProductVersionDir();
+		my $ProductInstanceDir		= $self->doResolveMyProductInstanceDir();
 		my $HostName					= $self->doResolveMyHostName();
 
 		# set the default ConfFile path if no cmd argument is provided
-		$ConfFile = "$ProductVersionDir/conf/$ProductName.$HostName.conf" ; 
+		$ConfFile = "$ProductInstanceDir/conf/$ProductName.$HostName.conf" ; 
 
 		$self->set('ConfFile' , $ConfFile) ; 
 		$appConfig->{'ConfFile'} 	= $ConfFile ; 
@@ -363,7 +363,7 @@ package UrlShooter::App::Utils::Initiator ;
 		bless( $self, $class );    # Say: $self is a $class
 
 		$ProductBaseDir 			= $self->doResolveMyProductBaseDir();
-		$ProductVersionDir 		= $self->doResolveMyProductVersionDir();
+		$ProductInstanceDir 		= $self->doResolveMyProductInstanceDir();
 		$EnvironmentName 			= $self->doResolveMyEnvironmentName();
 		$ProductName 				= $self->doResolveMyProductName();
 		$ProductVersion 			= $self->doResolveMyProductVersion();

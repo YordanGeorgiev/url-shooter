@@ -68,7 +68,7 @@ get_function_list () {
 #------------------------------------------------------------------------------
 doRunActions(){
 
-	cd $product_version_dir
+	cd $product_instance_dir
    test -z "$actions" && doPrintUsage && doExit 0 
 
 	while read -d ' ' action ; do (
@@ -255,8 +255,8 @@ doLog(){
 
    # define default log file none specified in conf file
    test -z $log_file && \
-		mkdir -p $product_version_dir/data/log/bash && \
-			log_file="$product_version_dir/data/log/bash/$wrap_name.`date +%Y%m`.log"
+		mkdir -p $product_instance_dir/data/log/bash && \
+			log_file="$product_instance_dir/data/log/bash/$wrap_name.`date +%Y%m`.log"
    echo " [$type_of_msg] `date +%Y.%m.%d-%H:%M:%S` [$wrap_name][@$host_name] [$$] $msg " >> $log_file
 }
 #eof func doLog
@@ -327,15 +327,15 @@ doRunCmdOrExit(){
 doSetVars(){
    cd $wrap_bash_dir
    for i in {1..3} ; do cd .. ; done ;
-   export product_version_dir=`pwd`;
+   export product_instance_dir=`pwd`;
 	# include all the func files to fetch their funcs 
 	while read -r func_file ; do . "$func_file" ; done < <(find . -name "*func.sh")
 	# while read -r func_file ; do echo "$func_file" ; done < <(find . -name "*func.sh")
 
    # this will be dev , tst, prd
-   env_type=$(echo `basename "$product_version_dir"`|cut --delimiter='.' -f5)
-	product_version=$(echo `basename "$product_version_dir"`|cut --delimiter='.' -f2-4)
-	environment_name=$(basename "$product_version_dir")
+   env_type=$(echo `basename "$product_instance_dir"`|cut --delimiter='.' -f5)
+	product_version=$(echo `basename "$product_instance_dir"`|cut --delimiter='.' -f2-4)
+	environment_name=$(basename "$product_instance_dir")
 
 	cd ..
 	product_dir=`pwd`;
@@ -386,8 +386,8 @@ doParseConfFile(){
 		&& conf_file="$wrap_bash_dir/$wrap_name.$host_name.conf"
 	
 	# if we have perl apps they will share the same configuration settings with this one
-	test -f "$product_version_dir/$wrap_name.$host_name.conf" \
-		&& conf_file="$product_version_dir/$wrap_name.$host_name.conf"
+	test -f "$product_instance_dir/$wrap_name.$host_name.conf" \
+		&& conf_file="$product_instance_dir/$wrap_name.$host_name.conf"
 
 	# yet finally override if passed as argument to this function
 	# if the the ini file is not passed define the default host independant ini file

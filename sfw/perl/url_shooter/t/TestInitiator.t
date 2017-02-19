@@ -12,7 +12,7 @@ my $objInitiator 				= 'UrlShooter::App::Utils::Initiator'->new();
 my $appConfig					= {} ;
 my $ProductBaseDir 			= $objInitiator->doResolveMyProductBaseDir();
 my $ProductDir 				= $objInitiator->doResolveMyProductDir();
-my $ProductVersionDir 		= $objInitiator->doResolveMyProductVersionDir();
+my $ProductInstanceDir 		= $objInitiator->doResolveMyProductInstanceDir();
 my $EnvironmentName 			= $objInitiator->doResolveMyEnvironmentName();
 my $ProductName 				= $objInitiator->doResolveMyProductName();
 my $ProductVersion 			= $objInitiator->doResolveMyProductVersion();
@@ -26,9 +26,9 @@ p($appConfig) ;
 
 ok ( $ProductBaseDir 		eq '/opt/csitea' ) ; 
 ok ( $ProductDir 				eq '/opt/csitea/url-shooter' ) ; 
-ok ( $ProductVersionDir 	eq '/opt/csitea/url-shooter/url-shooter.1.0.0.dev.ysg' ); 
-ok ( $ProductVersion 		eq '1.0.0' ); 
-ok ( $EnvironmentName 		eq 'url-shooter.1.0.0.dev.ysg' ); 
+ok ( $ProductInstanceDir 	eq '/opt/csitea/url-shooter/url-shooter.0.2.0.dev.ysg' ); 
+ok ( $ProductVersion 		eq '0.2.0' ); 
+ok ( $EnvironmentName 		eq 'url-shooter.0.2.0.dev.ysg' ); 
 ok ( $ProductType 			eq 'dev' ) ;
 ok ( $ProductType 			ne 'tst' ) ;
 ok ( $ProductType 			ne 'prd' ) ;
@@ -37,11 +37,11 @@ my $cmd_out						= `hostname -s` ;
 chomp ( $cmd_out ) ; 
 ok ( $HostName 				eq "$cmd_out" ) ;
 ok ( $ConfFile					eq 
-'/opt/csitea/url-shooter/url-shooter.1.0.0.dev.ysg/conf/url-shooter.' . $cmd_out . '.conf' ) ; 
+'/opt/csitea/url-shooter/url-shooter.0.2.0.dev.ysg/conf/url-shooter.' . $cmd_out . '.conf' ) ; 
 
 ok ( $ProductBaseDir 		eq $appConfig->{'ProductBaseDir'} ) ; 
 ok ( $ProductDir 				eq $appConfig->{'ProductDir'} ) ; 
-ok ( $ProductVersionDir 	eq $appConfig->{'ProductVersionDir'} ) ; 
+ok ( $ProductInstanceDir 	eq $appConfig->{'ProductInstanceDir'} ) ; 
 ok ( $ProductVersion 		eq $appConfig->{'ProductVersion' } ); 
 ok ( $EnvironmentName 		eq $appConfig->{'EnvironmentName'} ); 
 ok ( $ProductType 			eq $appConfig->{'ProductType'} ) ;

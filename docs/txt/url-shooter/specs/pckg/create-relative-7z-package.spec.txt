@@ -9,8 +9,8 @@
 	except for the file paths matching the Perl pattern specified 
 	by the # perl_ignore_file_pattern=<<the Perl regex used to ignore files>>
 	so that the user could deploy the product by :
-	mkdir -p <<target_product_version_dir>>
-	7z x -o <<zip_file>> -d <<target_product_version_dir>>	
+	mkdir -p <<target_product_instance_dir>>
+	7z x -o <<zip_file>> -d <<target_product_instance_dir>>	
 
 	# Prequisites
 	# ------------------------------------------------------
