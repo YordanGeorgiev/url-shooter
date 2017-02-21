@@ -26,9 +26,9 @@ p($appConfig) ;
 
 ok ( $ProductBaseDir 		eq '/opt/csitea' ) ; 
 ok ( $ProductDir 				eq '/opt/csitea/url-shooter' ) ; 
-ok ( $ProductInstanceDir 	eq '/opt/csitea/url-shooter/url-shooter.0.2.5.tst.ysg' ); 
-ok ( $ProductVersion 		eq '0.2.5' ); 
-ok ( $EnvironmentName 		eq 'url-shooter.0.2.5.tst.ysg' ); 
+ok ( $ProductInstanceDir 	eq '/opt/csitea/url-shooter/url-shooter.0.2.6.tst.ysg' ); 
+ok ( $ProductVersion 		eq '0.2.6' ); 
+ok ( $EnvironmentName 		eq 'url-shooter.0.2.6.tst.ysg' ); 
 ok ( $ProductType 			eq 'tst' ) ;
 ok ( $ProductType 			ne 'dev' ) ;
 ok ( $ProductType 			ne 'prd' ) ;
@@ -37,7 +37,7 @@ my $cmd_out						= `hostname -s` ;
 chomp ( $cmd_out ) ; 
 ok ( $HostName 				eq "$cmd_out" ) ;
 ok ( $ConfFile					eq 
-'/opt/csitea/url-shooter/url-shooter.0.2.5.tst.ysg/conf/url-shooter.' . $cmd_out . '.conf' ) ; 
+'/opt/csitea/url-shooter/url-shooter.0.2.6.tst.ysg/conf/url-shooter.' . $cmd_out . '.conf' ) ; 
 
 ok ( $ProductBaseDir 		eq $appConfig->{'ProductBaseDir'} ) ; 
 ok ( $ProductDir 				eq $appConfig->{'ProductDir'} ) ; 
